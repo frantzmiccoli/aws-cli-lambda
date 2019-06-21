@@ -3,6 +3,8 @@ set -e
 
 # Automatically detects python version (only works for python3.x)
 export PYTHON_VERSION=`python3 -c 'import sys; version=sys.version_info[:3]; print("{0}.{1}".format(*version))'`
+export PYTHON_VERSION="2.7"
+
 
 # Temporary directory for the virtual environment
 export VIRTUAL_ENV_DIR="awscli-virtualenv"
@@ -17,7 +19,7 @@ export ZIP_FILE_NAME="awscli-lambda-layer.zip"
 mkdir ${VIRTUAL_ENV_DIR}
 
 # Initializes a virtual environment in the virtual environment directory
-virtualenv -p python3 ${VIRTUAL_ENV_DIR}
+virtualenv -p python ${VIRTUAL_ENV_DIR}
 
 # Changes current dir to the virtual env directory
 cd ${VIRTUAL_ENV_DIR}/bin/
@@ -30,7 +32,7 @@ pip install awscli
 
 # Modifies the first line of aws file to #!/var/lang/bin/python (path to Python3 in Lambda)
 # if this command fails, you can manually edit the first line in the "aws" file in a text editor
-sed -i '' "1s/.*/\#\!\/var\/lang\/bin\/python/" aws
+sed -i '' "1s/.*/\#\!\/usr\/bin\/python/" aws
 
 # Deactivates the virtual env
 deactivate
